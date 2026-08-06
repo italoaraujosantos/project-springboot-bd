@@ -28,16 +28,21 @@ public class UserController {
 
     @PutMapping("/{id}")
     public UserEntity userUpdate(@PathVariable int id, @RequestBody UserEntity userEntity) {
-        UserEntity user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário com id " + id + " não localizado!"));
+        UserEntity user = userRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("Usuário com id " + id + " não localizado!")
+        );
         user.setName(userEntity.getName());
         user.setEmail(userEntity.getEmail());
         return userRepository.save(user);
     }
 
     @DeleteMapping("/{id}")
-    public void userDelete(@PathVariable int id){
-        UserEntity user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário com id " + id + " não localizado!"));
+    public String  userDelete(@PathVariable int id){
+        UserEntity user = userRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("Usuário com id " + id + " não localizado!")
+        );
         userRepository.delete(user);
+        return "Usuário id "+user.getId()+", "+user.getName()+" excluído com sucesso!";
     }
 
 }
