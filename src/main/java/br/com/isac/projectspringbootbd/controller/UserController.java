@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "*")
@@ -25,6 +27,18 @@ public class UserController {
         return userRepository.findAll();
     }
 
+    @PutMapping("/{id}")
+    public UserEntity userUpdate(@PathVariable int id, @RequestBody UserEntity userEntity) {
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário com id " + id + " não localizado!"));
+        user.setName(userEntity.getName());
+        user.setEmail(userEntity.getEmail());
+        return userRepository.save(user);
+    }
 
+    @DeleteMapping("/{id}")
+    public void userDelete(@PathVariable int id){
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário com id " + id + " não localizado!"));
+        userRepository.delete(user);
+    }
 
 }
