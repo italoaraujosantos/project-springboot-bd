@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserEntity userSearch(@PathVariable int id, @RequestBody UserEntity userEntity) {
+    public UserEntity userSearch(@PathVariable int id) {
          return userRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Usuário com id " + id + " não localizado!")
         );
